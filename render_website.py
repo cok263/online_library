@@ -1,3 +1,4 @@
+import os
 import json
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 from http.server import HTTPServer, SimpleHTTPRequestHandler
@@ -6,6 +7,8 @@ from more_itertools import chunked
 
 
 def on_reload():
+    os.makedirs('pages', exist_ok=True)
+
     env = Environment(
         loader=FileSystemLoader('.'),
         autoescape=select_autoescape(['html'])
@@ -15,12 +18,13 @@ def on_reload():
     with open('download/books.json', 'r') as lib_file:
         books_json = lib_file.read()
     books = json.loads(books_json)
-    rendered_page = template.render(
-        books=list(chunked(books, 2)),
-    )
-    with open('index.html', 'w', encoding="utf8") as file:
-        file.write(rendered_page)
-    print('template is reload')
+    for num_page, books_page in enumerate(list(chunked(books, 20))):
+        rendered_page = template.render(
+            books=list(chunked(books_page, 2)),
+        )
+        with open(f'pages/index{num_page}.html', 'w', encoding="utf8") as file:
+            file.write(rendered_page)
+        print('template is reload')
 
 
 on_reload()
