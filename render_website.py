@@ -16,7 +16,7 @@ def on_reload():
         books_json = lib_file.read()
     books = json.loads(books_json)
     rendered_page = template.render(
-        books=list(chunked(books, len(books // 2))),
+        books=list(chunked(books, 2)),
     )
     with open('index.html', 'w', encoding="utf8") as file:
         file.write(rendered_page)
