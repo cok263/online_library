@@ -30,10 +30,13 @@ def on_reload():
         print('template is reload')
 
 
-on_reload()
+def main():
+    on_reload()
 
-server = Server()
-server.watch('template.html', on_reload)
-server.serve(root='.')
-#server = HTTPServer(('0.0.0.0', 8000), SimpleHTTPRequestHandler)
-#server.serve_forever()
+    server = Server()
+    server.watch('template.html', on_reload)
+    server.serve(root='.')
+
+
+if __name__ == '__main__':
+    main()
