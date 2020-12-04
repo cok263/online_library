@@ -25,7 +25,9 @@ def on_reload():
             pages_count=math.ceil(len(books) / 10),
             current_page=num_page,
         )
-        with open(f'pages/index{num_page}.html', 'w', encoding="utf8") as file:
+        with open(
+            f'pages/index{num_page}.html', 'w', encoding="utf8"
+        ) as file:
             file.write(rendered_page)
         print('template is reload')
 
