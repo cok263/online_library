@@ -7,6 +7,10 @@ from livereload import Server
 from more_itertools import chunked
 
 
+BOOKS_ON_PAGE_COUNT = 10
+COLUMN_BOOKS_COUNT = 2
+
+
 def on_reload():
     os.makedirs('pages', exist_ok=True)
 
@@ -19,10 +23,10 @@ def on_reload():
     with open('download/books.json', 'r') as lib_file:
         books_json = lib_file.read()
     books = json.loads(books_json)
-    for num_page, books_page in enumerate(list(chunked(books, 10)), 1):
+    for num_page, books_page in enumerate(list(chunked(books, BOOKS_ON_PAGE_COUNT)), 1):
         rendered_page = template.render(
-            books=list(chunked(books_page, 2)),
-            pages_count=math.ceil(len(books) / 10),
+            books=list(chunked(books_page, COLUMN_BOOKS_COUNT)),
+            pages_count=math.ceil(len(books) / BOOKS_ON_PAGE_COUNT),
             current_page=num_page,
         )
         with open(
