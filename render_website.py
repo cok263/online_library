@@ -33,7 +33,7 @@ def on_reload():
             f'pages/index{num_page}.html', 'w', encoding="utf8"
         ) as file:
             file.write(rendered_page)
-        print('template is reload')
+        print('template reloaded')
 
 
 def main():
