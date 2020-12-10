@@ -12,17 +12,16 @@ BOOKS_ON_PAGE_COUNT = 10
 COLUMN_BOOKS_COUNT = 2
 
 
-def cleanPages(pages_count):
+def clean_pages(pages_count):
     files_in_pages = set(glob('pages/*.html'))
     expected_pages = {f'pages/index{i}.html'
                       for i in range(1, pages_count + 1)}
     old_pages = files_in_pages - expected_pages
-
     for file in old_pages:
         try:
             os.remove(file)
-        except:
-            print(f'File {file} can not be removed')
+        except OSError as e:
+            print(f'File {file} can not be removed. Error: {e.strerror}.')
 
 
 def on_reload():
@@ -52,7 +51,7 @@ def on_reload():
         ) as file:
             file.write(rendered_page)
         print('template reloaded')
-    cleanPages(pages_count)
+    clean_pages(pages_count)
 
 
 def main():
